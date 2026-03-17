@@ -96,6 +96,9 @@ const setupSlider = (heroEl, imagePaths) => {
       uTexture2Aspect: new THREE.Uniform(1),
       uPlaneAspect: new THREE.Uniform(sizes.width / sizes.height),
       uProgress: new THREE.Uniform(0),
+      uGradeShadow: new THREE.Uniform(new THREE.Color('#061f61')),
+      uGradeMid: new THREE.Uniform(new THREE.Color('#247bc7')),
+      uGradeHigh: new THREE.Uniform(new THREE.Color('#b2d1eb')),
     },
   })
   const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
@@ -265,6 +268,7 @@ const setupSlider = (heroEl, imagePaths) => {
   let loadedCount = 0
   imagePaths.forEach((path, i) => {
     textureLoader.load(path, (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace
       textures[i] = texture
       loadedCount++
       if (loadedCount === imagePaths.length) {

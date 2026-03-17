@@ -4,6 +4,9 @@ uniform float uTexture1Aspect;
 uniform float uTexture2Aspect;
 uniform float uPlaneAspect;
 uniform float uProgress;
+uniform vec3 uGradeShadow;
+uniform vec3 uGradeMid;
+uniform vec3 uGradeHigh;
 varying vec2 vUv;
 
 const float smoothness = .1;
@@ -45,16 +48,15 @@ vec4 transition(vec2 uv) {
 }
 
 vec3 blueGrade(vec3 color) {
-  float luminance = dot(color, vec3(.299, .587, .114));
-  vec3 shadow = vec3(.02, .12, .38);
-  vec3 mid    = vec3(.14, .48, .78);
-  vec3 high   = vec3(.70, .82, .92);
-  vec3 graded;
+  // luminance
+  float l = dot(color, vec3(.2126, .7152, .0722));
+  l = pow(l, .5);
 
-  if (luminance < .5) {
-    graded = mix(shadow, mid, luminance / .5);
+  vec3 graded;
+  if (l < .5) {
+    graded = mix(uGradeShadow, uGradeMid, l / .5);
   } else {
-    graded = mix(mid, high, (luminance - .5) / .5);
+    graded = mix(uGradeMid, uGradeHigh, (l - .5) / .5);
   }
 
   return graded;
@@ -66,4 +68,6 @@ void main() {
   vec3 color = mix(graded * .9, texture.rgb, .25);
 
   gl_FragColor = vec4(color, texture.a);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }
