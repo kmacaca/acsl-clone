@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>acsl-clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+    <script type="module" src="./main.js"></script>
+  </head>
+  <body class="font-rajdhani">
+    <section data-hero class="relative h-screen w-screen overflow-hidden">
+      <canvas data-hero-webgl class="absolute h-full w-full"></canvas>
+      <h1
+        data-hero-title
+        class="absolute top-1/3 left-1/6 cursor-pointer text-[6vw] leading-none font-semibold text-white"
+      >
+        LIBERATE<br />
+        HUMANITY<br />
+        THROUGH<br />
+        TECHNOLOGY
+      </h1>
+      <div data-hero-pagination class="absolute top-1/2 right-1/25 grid -translate-1/2 gap-[3vh]">
+        <template id="hero-dot-template">
+          <div data-hero-circle class="group aspect-square w-20 cursor-pointer">
+            <svg viewBox="0 0 82 82" class="circle">
+              <circle
+                data-hero-circle-bg
+                class="invisible origin-center -rotate-90"
+                cx="41"
+                cy="41"
+                r="40"
+                fill="transparent"
+                stroke="rgba(255, 255, 255, 0.3)"
+                stroke-width="2"
+              ></circle>
+              <circle
+                data-hero-circle-fg
+                class="invisible origin-center -rotate-90"
+                cx="41"
+                cy="41"
+                r="40"
+                fill="transparent"
+                stroke="#fff"
+                stroke-width="2"
+              ></circle>
+              <circle
+                class="origin-center duration-500 group-hover:scale-140"
+                cx="41"
+                cy="41"
+                r="3.5"
+                fill="#fff"
+              ></circle>
+            </svg>
+          </div>
+        </template>
+      </div>
+    </section>
+  </body>
+</html>
