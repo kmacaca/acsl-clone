@@ -1,7 +1,7 @@
 uniform float uTime;
 uniform vec2 uResolution;
 uniform float uDeltaZ;
-varying float vPositionZ;
+varying float vDistanceZ;
 
 void main() {
   vec3 newPosition = position;
@@ -12,5 +12,5 @@ void main() {
 
   gl_PointSize = .25 * min(uResolution.x, uResolution.y) * newPosition.z;
 
-  vPositionZ = newPosition.z;
+  vDistanceZ = 1. - newPosition.z;
 }

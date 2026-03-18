@@ -10,17 +10,17 @@ import { $, $$, getTemplateClone, lerp } from './utils'
 
 gsap.registerPlugin(SplitText, DrawSVGPlugin)
 
-const initHero = (heroEl, imagePaths) => {
-  setupTitleAnimation(heroEl)
-  setupSlider(heroEl, imagePaths)
+const initHero = (el, imagePaths) => {
+  setupTitle(el)
+  setupSlider(el, imagePaths)
 }
 
-const setupTitleAnimation = (heroEl) => {
-  const titleEl = $('[data-hero-title]', heroEl)
-  const split = new SplitText(titleEl, { type: 'chars' })
+const setupTitle = (el) => {
+  const title = $('[data-hero-title]', el)
+  const split = new SplitText(title, { type: 'chars' })
   let isAnimating = false
 
-  titleEl.addEventListener('mouseenter', () => {
+  title.addEventListener('mouseenter', () => {
     if (isAnimating) {
       return
     }
@@ -47,26 +47,26 @@ const setupTitleAnimation = (heroEl) => {
   })
 }
 
-const setupSlider = (heroEl, imagePaths) => {
-  const canvasEl = $('[data-hero-webgl]', heroEl)
-  const paginationEl = $('[data-hero-pagination]', heroEl)
+const setupSlider = (el, imagePaths) => {
+  const canvas = $('[data-hero-webgl]', el)
+  const pagination = $('[data-hero-pagination]', el)
   const pointer = new THREE.Vector2()
   const timer = new THREE.Timer()
   const textures = []
   const wrapIndex = gsap.utils.wrap(0, imagePaths.length)
   let currentIndex = -1
-  let isInterruptible = false
-  let progressTween
+  let isAnimating = false
+  let autoPlayTween
 
   /**
    * WebGL
    */
   const sizes = {
-    width: heroEl.clientWidth,
-    height: heroEl.clientHeight,
+    width: el.clientWidth,
+    height: el.clientHeight,
     pixelRatio: Math.min(window.devicePixelRatio, 2),
   }
-  const renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true })
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
   const scene = new THREE.Scene()
   const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
   const textureLoader = new THREE.TextureLoader()
@@ -148,13 +148,11 @@ const setupSlider = (heroEl, imagePaths) => {
   imagePaths.forEach((_, i) => {
     const dot = getTemplateClone('#hero-dot-template')
     dot.addEventListener('click', () => goTo(i))
-    paginationEl.appendChild(dot)
+    pagination.appendChild(dot)
   })
 
-  const getDotCircles = (index) => [
-    $$('[data-hero-circle-bg]', paginationEl)[index],
-    $$('[data-hero-circle-fg]', paginationEl)[index],
-  ]
+  const circleBgs = $$('[data-hero-circle-bg]', pagination)
+  const circleFgs = $$('[data-hero-circle-fg]', pagination)
 
   const slideTo = (index) => {
     setPlaneUniforms(currentIndex, index)
@@ -164,61 +162,58 @@ const setupSlider = (heroEl, imagePaths) => {
       .to(particlesMaterial.uniforms.uDeltaZ, { value: '+=.8' }, 0)
   }
 
-  const progressIn = (index) => {
-    const [circleBg, circleFg] = getDotCircles(index)
-    return gsap
+  const circleIn = (index) =>
+    gsap
       .timeline()
-      .call(() => (isInterruptible = false))
-      .set([circleBg, circleFg], { autoAlpha: 1, drawSVG: '0%' })
+      .set([circleBgs[index], circleFgs[index]], { autoAlpha: 1, drawSVG: '0%' })
       .to(
         gsap
           .timeline({ paused: true })
-          .to(circleBg, { drawSVG: '100%', ease: 'none' })
-          .to(circleFg, { drawSVG: '100%', ease: 'none' }),
-        { progress: 1, duration: 1.2 },
+          .to(circleBgs[index], { drawSVG: '100%', ease: 'none' })
+          .to(circleFgs[index], { drawSVG: '100%', ease: 'none' }),
+        { progress: 1, duration: 1.6 },
       )
-  }
 
-  const progressOut = (index) => {
-    const [circleBg, circleFg] = getDotCircles(index)
-    return gsap
+  const circleOut = (index) =>
+    gsap
       .timeline()
-      .call(() => (isInterruptible = false))
-      .to(circleFg, { drawSVG: '100% 100%', duration: 0.2 })
-      .to(circleBg, { drawSVG: '100% 100%', duration: 0.6 })
-  }
+      .to(circleFgs[index], { drawSVG: '100% 100%', duration: 0.2 })
+      .to(circleBgs[index], { drawSVG: '100% 100%', duration: 0.6 })
+
+  const startProgress = (index) => gsap.to(circleFgs[index], { drawSVG: '85% 100%', ease: 'none', duration: 4 })
 
   const goTo = (index) => {
     index = wrapIndex(index)
 
-    if (currentIndex === index || (progressTween?.isActive() && !isInterruptible)) {
+    if (isAnimating || currentIndex === index) {
       return
     }
 
-    const isFirstView = currentIndex < 0
+    autoPlayTween?.kill()
+    isAnimating = true
+
     const tl = gsap.timeline({ onComplete: () => goTo(index + 1) })
 
-    if (progressTween?.isActive()) {
-      progressTween.kill()
-      tl.add(progressOut(currentIndex))
+    if (currentIndex >= 0) {
+      tl.add(circleOut(currentIndex)).add(slideTo(index), '>-.8')
+    } else {
+      setPlaneUniforms(index, index)
     }
 
-    tl.add(!isFirstView ? slideTo(index) : () => {})
-      .add(progressIn(index), !isFirstView ? '>-1.6' : '+=0')
-      .call(() => (isInterruptible = true), null, '>')
-      .to(getDotCircles(index)[1], { drawSVG: '85% 100%', ease: 'none', duration: 4 }, '>')
-      .add(progressOut(index))
+    tl.add(circleIn(index), currentIndex >= 0 ? '>-1.8' : '+=0')
+      .call(() => (isAnimating = false), null, '>')
+      .add(startProgress(index), '>')
 
-    progressTween = tl
     currentIndex = index
+    autoPlayTween = tl
   }
 
   /**
    * Events
    */
   const onResize = () => {
-    sizes.width = heroEl.clientWidth
-    sizes.height = heroEl.clientHeight
+    sizes.width = el.clientWidth
+    sizes.height = el.clientHeight
     sizes.pixelRatio = Math.min(window.devicePixelRatio, 2)
 
     // camera
@@ -272,7 +267,6 @@ const setupSlider = (heroEl, imagePaths) => {
       textures[i] = texture
       loadedCount++
       if (loadedCount === imagePaths.length) {
-        setPlaneUniforms(0, 0)
         goTo(0)
       }
     })

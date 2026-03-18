@@ -47,7 +47,7 @@ vec4 transition(vec2 uv) {
   return mix(getFromColor((fromUv - 0.5) * (1.0 - m) + 0.5), getToColor((toUv - 0.5) * m + 0.5), m);
 }
 
-vec3 blueGrade(vec3 color) {
+vec3 colorGrade(vec3 color) {
   // luminance
   float l = dot(color, vec3(.2126, .7152, .0722));
   l = pow(l, .5);
@@ -64,7 +64,7 @@ vec3 blueGrade(vec3 color) {
 
 void main() {
   vec4 texture = transition(vUv);
-  vec3 graded = blueGrade(texture.rgb);
+  vec3 graded = colorGrade(texture.rgb);
   vec3 color = mix(graded * .9, texture.rgb, .25);
 
   gl_FragColor = vec4(color, texture.a);
