@@ -23,3 +23,12 @@
 .container-main {
   @apply mx-auto box-content max-w-6xl px-20;
 }
+
+.headline {
+  --s: calc(var(--spacing) * 2.5);
+  @apply grid grid-cols-[auto_1fr] gap-5 text-5xl font-semibold before:mt-[.15em] before:w-2.5;
+
+  &::before {
+    background-image: linear-gradient(#0af0f2 0 var(--s), var(--color-primary) var(--s) calc(var(--s) * 2), #0000 0);
+  }
+}
