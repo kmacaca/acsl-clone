@@ -2,4 +2,24 @@
 
 @theme {
   --font-rajdhani: 'Rajdhani', sans-serif;
+  --color-primary: #3455fc;
+  --color-primary-light: #f2f4fb;
+}
+
+:root {
+  --grad-primary: linear-gradient(
+    114deg,
+    rgba(39, 132, 249, 0),
+    rgba(39, 132, 249, 0.8) 30%,
+    rgba(52, 85, 252, 0.8) 80%,
+    rgba(52, 85, 252, 0) 110%
+  );
+}
+
+.font-rajdhani {
+  @apply tracking-wider;
+}
+
+.container-main {
+  @apply mx-auto box-content max-w-6xl px-20;
 }

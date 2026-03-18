@@ -57,5 +57,49 @@
         </template>
       </div>
     </section>
+
+    <section data-slider class="relative min-h-screen py-40">
+      <div class="bg-primary-light absolute bottom-0 h-1/2 w-screen"></div>
+      <div data-slider-container class="container-main">
+        <div class="relative -ms-20 -me-10">
+          <div data-slider-nav class="absolute right-0 grid gap-5">
+            <template id="slider-nav-item-template">
+              <div
+                data-slider-nav-item
+                class="[&.is-active]:text-primary flex cursor-pointer items-center text-sm font-semibold text-[#c1c4cb] duration-500"
+              >
+                <div class="mr-5 bg-[#c1c4cb]">
+                  <div data-slider-nav-progress class="h-[2em] w-px bg-current"></div>
+                </div>
+                <div data-slider-nav-index class="w-8"></div>
+                <div data-slider-nav-title></div>
+              </div>
+            </template>
+          </div>
+          <div data-slider-list class="grid [&>*]:[grid-area:1/1]">
+            <template id="slider-item-template">
+              <div data-slider-item class="grid grid-cols-[1fr_570px] items-start">
+                <div class="relative -mr-30 h-140">
+                  <img data-slider-item-img src="" alt="" class="h-full w-full object-cover" />
+                  <div data-slider-item-cover class="absolute inset-0 bg-[image:var(--grad-primary)]"></div>
+                </div>
+                <div class="z-1 mt-50 bg-white px-24 py-18" data-slider-item-cnt>
+                  <div class="mb-10 grid grid-cols-[40px_1fr] items-center gap-5">
+                    <div class="bg-primary h-px"></div>
+                    <div data-slider-item-index class="text-primary font-semibold"></div>
+                  </div>
+                  <div data-slider-item-title class="mb-10 text-4xl font-semibold"></div>
+                  <h3 data-slider-item-copy class="mb-7 text-2xl font-semibold"></h3>
+                  <p data-slider-item-text></p>
+                  <div class="mt-10">
+                    <a href="#" class="text-primary text-sm font-semibold">READ MORE →</a>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
