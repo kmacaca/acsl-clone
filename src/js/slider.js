@@ -64,6 +64,7 @@ const initSlider = (el, dataArray) => {
       .timeline()
       .set([imgs[index], covers[index], cnts[index]], { autoAlpha: 1 })
       .set(covers[index], { left: '0%', right: '100%' })
+      .add('start')
       // image
       .fromTo(imgs[index], { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)' })
       .to(covers[index], { right: '0%' }, '<')
@@ -72,7 +73,7 @@ const initSlider = (el, dataArray) => {
       .from(
         $$(':scope > *:not([data-slider-item-title])', cnts[index]),
         { x: -40, opacity: 0, stagger: 0.2, duration: 1 },
-        '<',
+        'start',
       )
       .fromTo(
         $('[data-slider-item-title]', cnts[index])._split.chars,
