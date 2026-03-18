@@ -1,4 +1,5 @@
 import initHero from './js/hero'
+import initScroll from './js/scroll'
 import initSlider from './js/slider'
 import { $ } from './js/utils'
 import './style.css'
@@ -11,7 +12,7 @@ const heroImagePaths = [
   'https://cdn.pixabay.com/photo/2021/12/29/14/47/water-6901805_1280.jpg',
   'https://cdn.pixabay.com/photo/2022/09/05/16/17/baltic-sea-7434540_1280.jpg',
 ]
-initHero(heroEl, heroImagePaths)
+heroEl && initHero(heroEl, heroImagePaths)
 
 // Slider Section
 const sliderEl = $('[data-slider]')
@@ -29,4 +30,8 @@ const sliderData = [
     imgPath: 'https://cdn.pixabay.com/photo/2021/12/29/14/47/water-6901805_1280.jpg',
   },
 ]
-initSlider(sliderEl, sliderData)
+sliderEl && initSlider(sliderEl, sliderData)
+
+// Scroll Section
+const scrollEl = $('[data-scroll]')
+scrollEl && initScroll(scrollEl)
