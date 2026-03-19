@@ -79,13 +79,13 @@
           </div>
           <div data-slider-list class="grid [&>*]:[grid-area:1/1]">
             <template id="slider-item-template">
-              <div data-slider-item class="grid grid-cols-[1fr_570px] items-start">
+              <div data-slider-item class="grid grid-cols-[1fr_36rem] items-start">
                 <div class="relative -mr-30 h-140">
                   <img data-slider-item-img src="" alt="" class="h-full w-full object-cover" />
                   <div data-slider-item-cover class="absolute inset-0 bg-[image:var(--grad-primary)]"></div>
                 </div>
                 <div class="z-1 mt-50 bg-white px-24 py-18" data-slider-item-cnt>
-                  <div class="mb-10 grid grid-cols-[40px_1fr] items-center gap-5">
+                  <div class="mb-10 grid grid-cols-[2.5rem_1fr] items-center gap-5">
                     <div class="bg-primary h-px"></div>
                     <div data-slider-item-index class="text-primary text-sm font-semibold"></div>
                   </div>
@@ -93,26 +93,30 @@
                   <h3 data-slider-item-copy class="mb-7 text-2xl font-semibold"></h3>
                   <p data-slider-item-text></p>
                   <div class="mt-10">
-                    <a href="#" class="text-primary text-sm font-semibold">READ MORE →</a>
+                    <a data-link href="#" class="text-primary text-sm font-semibold">
+                      <span data-link-text>READ MORE</span> →
+                    </a>
                   </div>
                 </div>
               </div>
             </template>
           </div>
+          <a data-button href="#" class="absolute top-140 right-144">OUR BUSINESS</a>
         </div>
       </div>
     </section>
 
     <section data-scroll class="py-40">
       <div class="container-main">
-        <div class="ml-[60%]">
+        <div class="relative z-1 ml-[60%]">
           <h2 class="headline">RECRUIT</h2>
           <p class="mt-7">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, doloremque exercitationem quos quasi sed vero
             dicta aliquam dolor dolorem consequuntur.
           </p>
+          <a data-button href="#" class="mt-10 block">READ MORE</a>
         </div>
-        <div data-scroll-container class="py-[8%]">
+        <div data-scroll-container class="-mt-[3%] py-[8%]">
           <div class="bg-primary-light relative aspect-12/5 translate-x-10">
             <div data-scroll-img class="absolute -top-4/20 left-1/12 aspect-3/2 w-7/20">
               <img
@@ -147,12 +151,25 @@
       </div>
     </section>
 
+    <template id="button-body-template">
+      <div data-button-body class="bg-primary relative isolate h-20 w-75 overflow-hidden">
+        <div data-button-bg class="absolute inset-0 -z-1 -translate-x-full bg-white"></div>
+        <div
+          class="border-primary grid h-full grid-cols-[1em_1fr_1em] place-items-center border px-8 text-sm text-white"
+        >
+          <span></span>
+          <span data-button-text></span>
+          <span data-button-arrow>→</span>
+        </div>
+      </div>
+    </template>
+
     <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-20">
       <div class="h-px bg-black"></div>
       <div>END</div>
       <div class="h-px bg-black"></div>
     </div>
 
-    <section class="h-screen"></section>
+    <div class="h-screen"></div>
   </body>
 </html>

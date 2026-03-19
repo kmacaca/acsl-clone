@@ -1,3 +1,4 @@
+import initGlobal from './js/global'
 import initHero from './js/hero'
 import initScroll from './js/scroll'
 import initSlider from './js/slider'
@@ -35,3 +36,6 @@ sliderEl && initSlider(sliderEl, sliderData)
 // Scroll Section
 const scrollEl = $('[data-scroll]')
 scrollEl && initScroll(scrollEl)
+
+// after all contents generated
+initGlobal()
