@@ -96,12 +96,13 @@ const setupSlider = (el, imagePaths) => {
       uTexture2Aspect: new THREE.Uniform(1),
       uPlaneAspect: new THREE.Uniform(sizes.width / sizes.height),
       uProgress: new THREE.Uniform(0),
-      uGradeShadow: new THREE.Uniform(new THREE.Color('#061f61')),
-      uGradeMid: new THREE.Uniform(new THREE.Color('#247bc7')),
-      uGradeHigh: new THREE.Uniform(new THREE.Color('#b2d1eb')),
+      uGradeShadow: new THREE.Uniform(new THREE.Color('#001e4e')),
+      uGradeMid: new THREE.Uniform(new THREE.Color('#3f79b1')),
+      uGradeHigh: new THREE.Uniform(new THREE.Color('#bee5ff')),
     },
   })
   const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
+  planeMesh.position.z = 0.1 // prevent mesh from being clipped at viewport edges during cursor-driven rotation
   planeMesh.scale.set(...visibleSize(), 1)
   scene.add(planeMesh)
 
@@ -130,7 +131,7 @@ const setupSlider = (el, imagePaths) => {
     uniforms: {
       uTime: new THREE.Uniform(0),
       uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width, sizes.height)),
-      uColor: new THREE.Uniform(new THREE.Color('#658eff')),
+      uColor: new THREE.Uniform(new THREE.Color('#3455fc')),
       uDeltaZ: new THREE.Uniform(0),
     },
     transparent: true,
@@ -201,8 +202,9 @@ const setupSlider = (el, imagePaths) => {
     }
 
     tl.add(circleIn(index), currentIndex >= 0 ? '>-1.8' : '+=0')
-      .call(() => (isAnimating = false), null, '>')
-      .add(startProgress(index), '>')
+      .add('circleInEnd')
+      .call(() => (isAnimating = false))
+      .add(startProgress(index), 'circleInEnd')
 
     currentIndex = index
     autoPlayTween = tl
@@ -244,8 +246,12 @@ const setupSlider = (el, imagePaths) => {
     const elapsed = timer.getElapsed()
 
     particlesMaterial.uniforms.uTime.value = elapsed
-    particlesMesh.rotation.x = lerp(particlesMesh.rotation.x, pointer.y * 0.05, 0.05)
-    particlesMesh.rotation.y = lerp(particlesMesh.rotation.y, -pointer.x * 0.05, 0.05)
+    const px = gsap.utils.clamp(-1, 1, pointer.x)
+    const py = gsap.utils.clamp(-1, 1, pointer.y)
+    planeMesh.rotation.x = lerp(planeMesh.rotation.x, py * 0.02, 0.05)
+    planeMesh.rotation.y = lerp(planeMesh.rotation.y, -px * 0.02, 0.05)
+    particlesMesh.rotation.x = lerp(particlesMesh.rotation.x, py * 0.05, 0.05)
+    particlesMesh.rotation.y = lerp(particlesMesh.rotation.y, -px * 0.05, 0.05)
 
     renderer.render(scene, camera)
 

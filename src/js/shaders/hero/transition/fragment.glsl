@@ -47,9 +47,12 @@ vec4 transition(vec2 uv) {
   return mix(getFromColor((fromUv - 0.5) * (1.0 - m) + 0.5), getToColor((toUv - 0.5) * m + 0.5), m);
 }
 
+float luma(vec3 color) {
+  return dot(color, vec3(.2126, .7152, .0722));
+}
+
 vec3 colorGrade(vec3 color) {
-  // luminance
-  float l = dot(color, vec3(.2126, .7152, .0722));
+  float l = luma(color);
   l = pow(l, .5);
 
   vec3 graded;
@@ -62,12 +65,18 @@ vec3 colorGrade(vec3 color) {
   return graded;
 }
 
+vec3 adjustSaturation(vec3 color, float saturation) {
+  float l = luma(color);
+  vec3 gray = vec3(l);
+  return mix(gray, color, saturation);
+}
+
 void main() {
   vec4 texture = transition(vUv);
   vec3 graded = colorGrade(texture.rgb);
-  vec3 color = mix(graded * .9, texture.rgb, .25);
+  graded = adjustSaturation(graded, 2.);
+  vec3 color = mix(graded, texture.rgb, .3);
 
   gl_FragColor = vec4(color, texture.a);
-  #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }
