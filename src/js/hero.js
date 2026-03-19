@@ -202,9 +202,9 @@ const setupSlider = (el, imagePaths) => {
     }
 
     tl.add(circleIn(index), currentIndex >= 0 ? '>-1.8' : '+=0')
-      .add('circleInEnd')
-      .call(() => (isAnimating = false))
-      .add(startProgress(index), 'circleInEnd')
+      .add('animationEnd')
+      .add(startProgress(index), '>')
+      .call(() => (isAnimating = false), null, 'animationEnd')
 
     currentIndex = index
     autoPlayTween = tl
