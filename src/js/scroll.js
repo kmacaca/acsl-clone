@@ -1,5 +1,6 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { imageIn } from './tweens'
 
 import { $, $$ } from './utils'
 
@@ -26,11 +27,7 @@ const initScroll = (el) => {
     },
   )
 
-  const revealTween = gsap
-    .timeline()
-    .fromTo(imgs, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)' })
-    .to(covers, { right: '0%' }, '<')
-    .to(covers, { left: '100%', duration: 0.6 }, '<.2')
+  const revealTween = imageIn(imgs, covers)
 
   ScrollTrigger.create({
     trigger: container,
