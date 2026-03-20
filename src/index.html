@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
     <script type="module" src="./main.js"></script>
   </head>
-  <body class="font-rajdhani">
+  <body class="font-rajdhani min-w-5xl">
     <section data-hero class="relative h-screen w-full overflow-hidden">
       <canvas data-hero-webgl class="absolute h-full w-full"></canvas>
       <h1
@@ -55,6 +55,57 @@
             </svg>
           </div>
         </template>
+      </div>
+    </section>
+
+    <section data-hover class="py-40">
+      <div class="container-main">
+        <div data-hover-container class="relative isolate perspective-midrange">
+          <h2 class="headline mb-25">OUR SOLUTIONS</h2>
+          <ul data-hover-list class="relative flex justify-center gap-[8%] px-15">
+            <template id="hover-item-template">
+              <li data-hover-item class="w-50 odd:mt-15">
+                <div data-hover-item-nav>
+                  <a
+                    data-hover-item-anchor
+                    class="grid aspect-square overflow-hidden rounded-full bg-white [&>*]:[grid-area:1/1]"
+                    href="#"
+                  >
+                    <img class="h-full w-full object-cover" data-hover-item-img src="" alt="" />
+                    <svg viewBox="0 0 202 202">
+                      <circle cx="101" cy="101" r="100" fill="transparent" stroke="#0af0f2" stroke-width="2"></circle>
+                      <circle
+                        data-hover-circle-fg
+                        class="origin-center -rotate-90"
+                        cx="101"
+                        cy="101"
+                        r="100"
+                        fill="transparent"
+                        stroke="#3455fc"
+                        stroke-width="2"
+                      ></circle>
+                    </svg>
+                  </a>
+                  <h3 data-hover-item-title class="mt-6 text-center font-semibold"></h3>
+                </div>
+                <div
+                  data-hover-item-cnt
+                  class="absolute right-0 bottom-11/10 grid w-100 grid-cols-[2.5rem_1.5rem_1fr] items-center"
+                >
+                  <div data-hover-item-index class="text-primary text-xl font-semibold"></div>
+                  <div data-hover-item-bar class="bg-primary h-full w-px"></div>
+                  <p data-hover-item-text></p>
+                </div>
+              </li>
+            </template>
+          </ul>
+          <a data-button href="#" class="mx-15 mt-15 inline-block">OUR SOLUTIONS</a>
+          <div data-hover-bg class="absolute -inset-x-1/20 -inset-y-1/10 -z-1 grid opacity-10 [&>*]:[grid-area:1/1]">
+            <template id="hover-bg-img-template">
+              <img data-hover-bg-img src="" alt="" class="hover-bg-mask h-full w-full object-center" />
+            </template>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -155,7 +206,7 @@
       <div data-button-body class="bg-primary relative isolate h-20 w-75 overflow-hidden">
         <div data-button-bg class="absolute inset-0 -z-1 -translate-x-full bg-white"></div>
         <div
-          class="border-primary grid h-full grid-cols-[1em_1fr_1em] place-items-center border px-8 text-sm text-white"
+          class="border-primary grid h-full grid-cols-[1em_1fr_1em] place-items-center border px-8 text-sm leading-none text-white"
         >
           <span></span>
           <span data-button-text></span>
