@@ -1,10 +1,28 @@
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
-import { $, $$, getTemplateClone } from './utils'
+import { revealChars } from '@/js/tweens'
+import { $, $$, getTemplateClone } from '@/js/utils'
 
-gsap.registerPlugin(SplitText)
+gsap.registerPlugin(SplitText, ScrollTrigger)
 
 const initGlobal = () => {
+  // headline
+  $$('[data-headline]').forEach((el) => {
+    const split = new SplitText(el, { type: 'chars' })
+
+    ScrollTrigger.create({
+      trigger: el,
+      onEnter: () =>
+        gsap
+          .timeline({
+            onComplete: () => split.revert(),
+          })
+          .add(revealChars(split.chars)),
+      once: true,
+    })
+  })
+
   // link
   $$('[data-link]').forEach((link) => {
     const text = $('[data-link-text]', link)

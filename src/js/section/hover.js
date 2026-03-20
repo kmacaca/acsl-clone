@@ -3,8 +3,8 @@ import gsap from 'gsap'
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
-import { revealChars } from './tweens'
-import { $, $$, getTemplateClone } from './utils'
+import { revealChars } from '@/js/tweens'
+import { $, $$, getTemplateClone } from '@/js/utils'
 
 gsap.registerPlugin(SplitText, DrawSVGPlugin, ScrollTrigger)
 
@@ -80,7 +80,6 @@ const initHover = (el, dataArray) => {
 
   ScrollTrigger.create({
     trigger: list,
-    start: 'top bottom-=120',
     onEnter: () => activate(0),
     once: true,
   })

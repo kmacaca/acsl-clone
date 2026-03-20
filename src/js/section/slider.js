@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
-import { imageIn } from './tweens'
-import { $, $$, getTemplateClone } from './utils'
+import { imageIn } from '@/js/tweens'
+import { $, $$, getTemplateClone } from '@/js/utils'
 
 gsap.registerPlugin(SplitText, ScrollTrigger)
 
@@ -130,7 +130,6 @@ const initSlider = (el, dataArray) => {
 
   ScrollTrigger.create({
     trigger: $('[data-slider-container]', el),
-    start: 'top bottom-=120',
     onEnter: () => goTo(0),
     once: true,
   })

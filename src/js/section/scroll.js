@@ -1,8 +1,8 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { imageIn } from './tweens'
+import { imageIn } from '@/js/tweens'
 
-import { $, $$ } from './utils'
+import { $, $$ } from '@/js/utils'
 
 gsap.registerPlugin(ScrollTrigger)
 
