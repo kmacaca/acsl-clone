@@ -52,11 +52,10 @@ const setupSlider = (el, imagePaths) => {
   const pagination = $('[data-hero-pagination]', el)
   const pointer = new THREE.Vector2()
   const timer = new THREE.Timer()
-  const textures = []
-  const wrapIndex = gsap.utils.wrap(0, imagePaths.length)
+  let textures = []
   let currentIndex = -1
   let isAnimating = false
-  let autoPlayTween
+  let autoPlayTween, circleBgs, circleFgs, wrapIndex
 
   /**
    * WebGL
@@ -87,6 +86,7 @@ const setupSlider = (el, imagePaths) => {
   // plane (slider)
   const planeGeometry = new THREE.PlaneGeometry(1, 1)
   const planeMaterial = new THREE.ShaderMaterial({
+    transparent: true,
     vertexShader: transitionVertexShader,
     fragmentShader: transitionFragmentShader,
     uniforms: {
@@ -145,16 +145,6 @@ const setupSlider = (el, imagePaths) => {
   /**
    * Controls
    */
-  // generate pagination dots
-  imagePaths.forEach((_, i) => {
-    const dot = getTemplateClone('#hero-dot-template')
-    dot.addEventListener('click', () => goTo(i))
-    pagination.appendChild(dot)
-  })
-
-  const circleBgs = $$('[data-hero-circle-bg]', pagination)
-  const circleFgs = $$('[data-hero-circle-fg]', pagination)
-
   const slideTo = (index) => {
     setPlaneUniforms(currentIndex, index)
     return gsap
@@ -238,6 +228,33 @@ const setupSlider = (el, imagePaths) => {
     pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1
   }
 
+  let loadedCount = 0
+  const onLoadTexture = () => {
+    loadedCount++
+
+    if (loadedCount === imagePaths.length) {
+      textures = textures.filter(Boolean)
+
+      if (!textures.length) {
+        return
+      }
+
+      // generate pagination dots
+      textures.forEach((_, i) => {
+        const dot = getTemplateClone('#hero-dot-template')
+        dot.addEventListener('click', () => goTo(i))
+        pagination.appendChild(dot)
+      })
+
+      circleBgs = $$('[data-hero-circle-bg]', pagination)
+      circleFgs = $$('[data-hero-circle-fg]', pagination)
+      wrapIndex = gsap.utils.wrap(0, textures.length)
+
+      // start slider
+      goTo(0)
+    }
+  }
+
   /**
    * Animation
    */
@@ -262,19 +279,23 @@ const setupSlider = (el, imagePaths) => {
   window.addEventListener('resize', onResize)
   el.addEventListener('pointermove', onPointerMove)
 
-  requestAnimationFrame(tick)
-
-  let loadedCount = 0
   imagePaths.forEach((path, i) => {
-    textureLoader.load(path, (texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace
-      textures[i] = texture
-      loadedCount++
-      if (loadedCount === imagePaths.length) {
-        goTo(0)
-      }
-    })
+    textureLoader.load(
+      path,
+      (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace
+        textures[i] = texture
+        onLoadTexture()
+      },
+      undefined,
+      () => {
+        textures[i] = null
+        onLoadTexture()
+      },
+    )
   })
+
+  requestAnimationFrame(tick)
 }
 
 export default initHero
