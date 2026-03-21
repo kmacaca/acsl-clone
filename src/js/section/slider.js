@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
-import { imageIn } from '@/js/tweens'
-import { $, $$, getTemplateClone } from '@/js/utils'
+import { imageIn, revealChars } from '../tweens'
+import { $, $$, getTemplateClone } from '../utils'
 
 gsap.registerPlugin(SplitText, ScrollTrigger)
 
@@ -70,24 +70,7 @@ const initSlider = (el, dataArray) => {
         { x: -40, opacity: 0, stagger: 0.2, duration: 1 },
         '<',
       )
-      .fromTo(
-        $('[data-slider-item-title]', cnts[index])._split.chars,
-        { opacity: 0, color: '#3455fc' },
-        {
-          stagger: {
-            amount: 0.4,
-            from: 'random',
-            onStart() {
-              const target = this.targets()[0]
-              gsap
-                .timeline()
-                .to(target, { opacity: 1, ease: 'power1.inOut' })
-                .to(target, { color: '#000', ease: 'power1.inOut', duration: 0.2 })
-            },
-          },
-        },
-        '<.4',
-      )
+      .add(revealChars($('[data-slider-item-title]', cnts[index])._split.chars), '<.4')
 
   const slideOut = (index) =>
     gsap

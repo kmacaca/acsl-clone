@@ -1,8 +1,8 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
-import { revealChars } from '@/js/tweens'
-import { $, $$, getTemplateClone } from '@/js/utils'
+import { revealChars } from './tweens'
+import { $, $$, getTemplateClone } from './utils'
 
 gsap.registerPlugin(SplitText, ScrollTrigger)
 

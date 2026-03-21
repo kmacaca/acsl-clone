@@ -2,11 +2,11 @@ import gsap from 'gsap'
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { SplitText } from 'gsap/SplitText'
 import * as THREE from 'three'
-import particlesFragmentShader from '@/js/shaders/hero/particles/fragment.glsl'
-import particlesVertexShader from '@/js/shaders/hero/particles/vertex.glsl'
-import transitionFragmentShader from '@/js/shaders/hero/transition/fragment.glsl'
-import transitionVertexShader from '@/js/shaders/hero/transition/vertex.glsl'
-import { $, $$, getTemplateClone, lerp } from '@/js/utils'
+import particlesFragmentShader from '../shaders/hero/particles/fragment.glsl'
+import particlesVertexShader from '../shaders/hero/particles/vertex.glsl'
+import transitionFragmentShader from '../shaders/hero/transition/fragment.glsl'
+import transitionVertexShader from '../shaders/hero/transition/vertex.glsl'
+import { $, $$, getTemplateClone, lerp } from '../utils'
 
 gsap.registerPlugin(SplitText, DrawSVGPlugin)
 
