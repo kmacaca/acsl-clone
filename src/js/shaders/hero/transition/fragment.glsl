@@ -9,10 +9,6 @@ uniform vec3 uGradeMid;
 uniform vec3 uGradeHigh;
 varying vec2 vUv;
 
-const float smoothness = .1;
-const vec2 direction = vec2(-1., 0.);
-const vec2 center = vec2(.5, .5);
-
 // scales uv to fill the plane while preserving aspect ratio
 vec2 coverUv(vec2 uv, float imageAspect, float planeAspect) {
   vec2 ratio = vec2(
@@ -33,18 +29,22 @@ vec4 getToColor(vec2 uv) {
   return texture2D(uTexture2, coverUv(uv, uTexture2Aspect, uPlaneAspect));
 }
 
-// ref: https://gl-transitions.com/editor/directionalwarp
 vec4 transition(vec2 uv) {
+  float smoothness = .1;
+  vec2 direction = vec2(-1., 0.);
+
   vec2 v = normalize(direction);
-  v /= abs(v.x) + abs(v.y);
-  float d = v.x * center.x + v.y * center.y;
-  float m = 1.0 - smoothstep(-smoothness, 0.0, v.x * uv.x + v.y * uv.y - (d - 0.5 + uProgress * (1.0 + smoothness)));
+  v /= abs(v.x) + abs(v.y); // L1 norm
+  float d = dot(v, uv);
+  float d_min = min(0., v.x) + min(0., v.y); // subtracting d_min shifts d to [0,1] for any direction
+  float m = 1. - smoothstep(-smoothness, 0., d - d_min - (1. + smoothness) * uProgress);
 
-  // from: slides out, to: slides in
-  vec2 fromUv = uv - v * (uProgress * .3);
-  vec2 toUv   = uv - v * ((uProgress - 1.) * .3);
+  vec2 proj = v * d; // projection
+  vec2 perp = uv - proj; // perpendicular
+  vec2 uvFrom = perp + proj * (1.0 - m);
+  vec2 uvTo   = perp + proj * m;
 
-  return mix(getFromColor((fromUv - 0.5) * (1.0 - m) + 0.5), getToColor((toUv - 0.5) * m + 0.5), m);
+  return mix(getFromColor(uvFrom), getToColor(uvTo), m);
 }
 
 float luma(vec3 color) {

@@ -246,12 +246,10 @@ const setupSlider = (el, imagePaths) => {
     const elapsed = timer.getElapsed()
 
     particlesMaterial.uniforms.uTime.value = elapsed
-    const px = gsap.utils.clamp(-1, 1, pointer.x)
-    const py = gsap.utils.clamp(-1, 1, pointer.y)
-    planeMesh.rotation.x = lerp(planeMesh.rotation.x, py * 0.02, 0.05)
-    planeMesh.rotation.y = lerp(planeMesh.rotation.y, -px * 0.02, 0.05)
-    particlesMesh.rotation.x = lerp(particlesMesh.rotation.x, py * 0.05, 0.05)
-    particlesMesh.rotation.y = lerp(particlesMesh.rotation.y, -px * 0.05, 0.05)
+    planeMesh.rotation.x = lerp(planeMesh.rotation.x, pointer.y * 0.02, 0.05)
+    planeMesh.rotation.y = lerp(planeMesh.rotation.y, -pointer.x * 0.02, 0.05)
+    particlesMesh.rotation.x = lerp(particlesMesh.rotation.x, pointer.y * 0.05, 0.05)
+    particlesMesh.rotation.y = lerp(particlesMesh.rotation.y, -pointer.x * 0.05, 0.05)
 
     renderer.render(scene, camera)
 
@@ -262,7 +260,7 @@ const setupSlider = (el, imagePaths) => {
    * Main
    */
   window.addEventListener('resize', onResize)
-  window.addEventListener('pointermove', onPointerMove)
+  el.addEventListener('pointermove', onPointerMove)
 
   requestAnimationFrame(tick)
 
