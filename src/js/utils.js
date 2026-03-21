@@ -7,3 +7,5 @@ export const getTemplateClone = (selector) => {
 }
 
 export const lerp = (a, b, t) => a + (b - a) * t
+
+export const getCssVar = (varName) => getComputedStyle(document.documentElement).getPropertyValue(varName).trim()

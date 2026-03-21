@@ -6,7 +6,7 @@ import particlesFragmentShader from '../shaders/hero/particles/fragment.glsl'
 import particlesVertexShader from '../shaders/hero/particles/vertex.glsl'
 import transitionFragmentShader from '../shaders/hero/transition/fragment.glsl'
 import transitionVertexShader from '../shaders/hero/transition/vertex.glsl'
-import { $, $$, getTemplateClone, lerp } from '../utils'
+import { $, $$, getTemplateClone, lerp, getCssVar } from '../utils'
 
 gsap.registerPlugin(SplitText, DrawSVGPlugin)
 
@@ -35,7 +35,7 @@ const setupTitle = (el) => {
         from: 'random',
         onStart() {
           gsap.to(this.targets()[0], {
-            color: '#3455fc',
+            color: getCssVar('--color-primary'),
             yoyo: true,
             repeat: 3,
             duration: 0.2,
@@ -131,7 +131,7 @@ const setupSlider = (el, imagePaths) => {
     uniforms: {
       uTime: new THREE.Uniform(0),
       uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width, sizes.height)),
-      uColor: new THREE.Uniform(new THREE.Color('#3455fc')),
+      uColor: new THREE.Uniform(new THREE.Color(getCssVar('--color-primary'))),
       uDeltaZ: new THREE.Uniform(0),
     },
     transparent: true,

@@ -2,7 +2,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { revealChars } from './tweens'
-import { $, $$, getTemplateClone } from './utils'
+import { $, $$, getTemplateClone, getCssVar } from './utils'
 
 gsap.registerPlugin(SplitText, ScrollTrigger)
 
@@ -71,7 +71,7 @@ const initGlobal = () => {
       const rollUp = (target) =>
         gsap
           .timeline()
-          .to(target, { color: '#3455fc', duration: 0.2 })
+          .to(target, { color: getCssVar('--color-primary'), duration: 0.2 })
           .to(
             target,
             {

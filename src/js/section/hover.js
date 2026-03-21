@@ -4,7 +4,7 @@ import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { revealChars } from '../tweens'
-import { $, $$, getTemplateClone } from '../utils'
+import { $, $$, getTemplateClone, getCssVar } from '../utils'
 
 gsap.registerPlugin(SplitText, DrawSVGPlugin, ScrollTrigger)
 
@@ -47,13 +47,13 @@ const initHover = (el, dataArray) => {
 
     if (currentIndex >= 0) {
       // deactivate
-      tl.to(navs[currentIndex], { opacity: 0.4, color: '#000', duration: 0.4 })
+      tl.to(navs[currentIndex], { opacity: 0.4, color: getCssVar('--color-text'), duration: 0.4 })
         .to(circleFgs[currentIndex], { drawSVG: '100% 100%', duration: 0.4 }, 0)
         .to(cnts[currentIndex], { autoAlpha: 0, duration: 0.2 }, 0)
         .to(bgImgs[currentIndex], { autoAlpha: 0, duration: 0.2 }, 0)
     }
 
-    tl.to(navs[index], { opacity: 1, color: '#3455fc' }, 0)
+    tl.to(navs[index], { opacity: 1, color: getCssVar('--color-primary') }, 0)
       .to(circleFgs[index], { drawSVG: '0% 100%' }, 0)
       .fromTo(bgImgs[index], { x: -40, opacity: 0 }, { x: 0, autoAlpha: 1, ease: 'expo.out', duration: 1 }, 0.3)
       .to(cnts[index], { autoAlpha: 1, ease: 'power1.in' }, 0.2)
@@ -73,7 +73,7 @@ const initHover = (el, dataArray) => {
   const circleFgs = $$('[data-hover-circle-fg]', list)
   const bgImgs = $$('[data-hover-bg-img]', bg)
 
-  gsap.set(navs, { opacity: 0.4, color: '#3455fc' })
+  gsap.set(navs, { opacity: 0.4 })
   gsap.set(circleFgs, { drawSVG: '100% 100%' })
   gsap.set(cnts, { autoAlpha: 0 })
   gsap.set(bgImgs, { autoAlpha: 0 })
