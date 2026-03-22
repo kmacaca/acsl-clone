@@ -148,7 +148,7 @@ const setupSlider = (el, imagePaths) => {
   const slideTo = (index) => {
     setPlaneUniforms(currentIndex, index)
     return gsap
-      .timeline({ defaults: { duration: 3, ease: 'power2.inOut' } })
+      .timeline({ defaults: { duration: 3, ease: 'power3.inOut' } })
       .to(planeMaterial.uniforms.uProgress, { value: 1 })
       .to(particlesMaterial.uniforms.uDeltaZ, { value: '+=.8' }, 0)
   }

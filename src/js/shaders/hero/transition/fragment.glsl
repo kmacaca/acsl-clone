@@ -41,8 +41,8 @@ vec4 transition(vec2 uv) {
 
   vec2 proj = v * d; // projection
   vec2 perp = uv - proj; // perpendicular
-  vec2 uvFrom = perp + proj * (1.0 - m);
-  vec2 uvTo   = perp + proj * m;
+  vec2 uvFrom = perp + proj * (1.0 - m) - v * uProgress * .3;
+  vec2 uvTo   = perp + proj * m + v * (1. - uProgress) * .3;
 
   return mix(getFromColor(uvFrom), getToColor(uvTo), m);
 }
