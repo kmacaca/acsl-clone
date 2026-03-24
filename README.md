@@ -13,3 +13,7 @@ This is a partial clone of a website created for coding practice.
 - Three.js - WebGL
   - Paticle shader
   - GLSL transition
+
+## TODO
+
+- make it responsive
